@@ -1,17 +1,21 @@
-import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Watch } from "@/components/three";
+import { ScrollControls } from "@react-three/drei";
+import { getProject } from "@theatre/core";
+import { SheetProvider } from "@theatre/r3f";
+
+import { AnimationScene } from "@/components/three";
 
 function App() {
+  const sheet = getProject("Product Animation").sheet("Scene");
+
   return (
     <main className="w-full h-screen">
-      <Canvas gl={{ antialias: true }}>
-        <color attach="background" args={["#f5f6f7"]} />
-        <OrbitControls />
-        <ambientLight intensity={0.5} />
-        <spotLight intensity={0.5} position={[10, 15, 10]} />
-        <Environment preset="city" />
-        <Watch />
+      <Canvas gl={{ antialias: true, preserveDrawingBuffer: true }}>
+        <ScrollControls pages={5}>
+          <SheetProvider sheet={sheet}>
+            <AnimationScene />
+          </SheetProvider>
+        </ScrollControls>
       </Canvas>
     </main>
   );
